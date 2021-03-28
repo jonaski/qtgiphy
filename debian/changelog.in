@@ -1,0 +1,5 @@
+qtgiphy (${QTGIPHY_VERSION_DISPLAY}-${DEB_CODENAME}) ${DEB_CODENAME}; urgency=low
+
+  * Version ${QTGIPHY_VERSION_DISPLAY}
+
+ -- Jonas Kvinge <jonas@jkvinge.net>  ${DEB_DATE}

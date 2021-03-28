@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=QtGiphy
+GenericName=QtGiphy
+Comment=Download GIFs
+Exec=qtgiphy %U
+TryExec=qtgiphy
+Icon=qtgiphy
+Terminal=false
+Categories=Utility;Graphics;
+StartupNotify=false
+MimeType=
+StartupWMClass=qtgiphy

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component>
+  <id>net.jkvinge.qtgiphy</id>
+  <launchable type="desktop-id">net.jkvinge.qtgiphy.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0+</project_license>
+  <provides>
+    <binary>qtgiphy</binary>
+  </provides>
+  <name>Qt Giphy</name>
+  <summary>A giphy API utility</summary>
+  <url type="homepage">https://www.jkvinge.org/</url>
+  <url type="bugtracker">https://github.com/jkvinge/qtgiphy/</url>
+  ​<translation type="qt">qtgiphy</translation>
+  <description>
+    <p>A small program made for fun to show and save GIF's from giphy.com.</p>
+  </description>
+  <update_contact>eclipseo@fedoraproject.org</update_contact>
+</component>

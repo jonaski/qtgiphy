@@ -1,0 +1,44 @@
+#!/bin/bash
+
+name=qtgiphy
+version="@QTGIPHY_VERSION_PACKAGE@"
+gitrev="@INCLUDE_GIT_REVISION@"
+root=$(cd "${0%/*}/../.." && echo $PWD/${0##*/})
+root=`dirname "$root"`
+rootnoslash=`echo $root | sed "s/^\///"`
+
+if ! [ "$gitrev" = "ON" ]; then
+  exclude_vcs="--exclude-vcs"
+fi
+
+echo "Creating $name-$version.tar.xz..."
+
+rm -f "$name-$version.tar.xz"
+tar -cJf $name-$version.tar.xz \
+    --transform "s,^$rootnoslash,$name-$version," $exclude_vcs \
+    --exclude=".directory" \
+    --exclude="*.tar" \
+    --exclude="*.tar.*" \
+    --exclude="*.bz" \
+    --exclude="*.bz2" \
+    --exclude="*.xz" \
+    --exclude="*.spec" \
+    --exclude="*.nsi" \
+    --exclude="*.kdev4" \
+    --exclude=".vscode" \
+    --exclude="$root/.github" \
+    --exclude="$root/.travis.yml" \
+    --exclude="$root/.circleci" \
+    --exclude="$root/Dockerfile" \
+    --exclude="$root/CMakeLists.txt.user" \
+    --exclude="$root/.clang-format" \
+    --exclude="$root/build" \
+    --exclude="$root/zanata.xml" \
+    --exclude="$root/.zanata-cache" \
+    --exclude="$root/debian/changelog" \
+    --exclude="$root/dist/scripts/maketarball.sh" \
+    --exclude="$root/dist/unix/PKGBUILD" \
+    --exclude="$root/dist/macos/Info.plist" \
+    --exclude="$root/dist/windows/windres.rc" \
+    --exclude="$root/src/translations/translations.pot" \
+    "$root"

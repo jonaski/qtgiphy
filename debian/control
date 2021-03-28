@@ -1,0 +1,19 @@
+Source: qtgiphy
+Section: admin
+Priority: optional
+Maintainer: Jonas Kvinge <jonas@jkvinge.net>
+Build-Depends: debhelper (>= 11),
+               make,
+               cmake,
+               gcc,
+               qtbase5-dev,
+               qtbase5-dev-tools,
+               qttools5-dev,
+Standards-Version: 4.2.1
+
+Package: qtgiphy
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Homepage: https://github.com/jonaski/qtgiphy
+Description: A program to show and save GIF's from giphy.com.
+ A small program made for fun to show and save GIF's from giphy.com.

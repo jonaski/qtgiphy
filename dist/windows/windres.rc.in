@@ -1,0 +1,24 @@
+qtgiphy ICON "${CMAKE_CURRENT_SOURCE_DIR}/../dist/windows/qtgiphy.ico"
+1 VERSIONINFO
+FILEVERSION     ${QTGIPHY_VERSION_MAJOR},${QTGIPHY_VERSION_MINOR},${QTGIPHY_VERSION_PATCH}
+PRODUCTVERSION  ${QTGIPHY_VERSION_MAJOR},${QTGIPHY_VERSION_MINOR},${QTGIPHY_VERSION_PATCH}
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "080904E4"
+    BEGIN
+      VALUE "CompanyName", "Jonas Kvinge"
+      VALUE "FileDescription", "QtGiphy"
+      VALUE "FileVersion", "${QTGIPHY_VERSION_DISPLAY}"
+      VALUE "InternalName", "QtGiphy"
+      VALUE "OriginalFilename", "qtgiphy.exe"
+      VALUE "ProductName", "QtGiphy"
+      VALUE "ProductVersion", "${QTGIPHY_VERSION_DISPLAY}"
+    END
+  END
+
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x0809, 1252
+  END
+END
