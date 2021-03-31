@@ -866,7 +866,7 @@ jobs:
   create_release:
     name: Create GitHub Release
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/release'
+    if: github.ref == 'refs/heads/master'
     needs:
       - build_source
       - build_opensuse_lp152_qt5
