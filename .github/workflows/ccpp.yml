@@ -47,6 +47,10 @@ jobs:
       - name: Create source tarball
         working-directory: build
         run: ../dist/scripts/maketarball.sh
+      - uses: actions/upload-artifact@v2
+        with:
+          name: release_source
+          path: build/qtgiphy-*.tar.xz
 
 
   build_opensuse_lp152_qt5:
@@ -101,6 +105,10 @@ jobs:
       - name: Build RPM
         working-directory: build
         run: rpmbuild -ba ../dist/unix/qtgiphy.spec
+      - uses: actions/upload-artifact@v2
+        with:
+          name: release_opensuse_lp152_qt5
+          path: /usr/src/packages/RPMS/*/qtgiphy*.*rpm
 
 
   build_opensuse_lp152_qt6:
@@ -211,6 +219,10 @@ jobs:
       - name: Build RPM
         working-directory: build
         run: rpmbuild -ba ../dist/unix/qtgiphy.spec
+      - uses: actions/upload-artifact@v2
+        with:
+          name: release_opensuse_lp153_qt5
+          path: /usr/src/packages/RPMS/*/qtgiphy*.*rpm
 
 
   build_opensuse_lp153_qt6:
@@ -444,6 +456,10 @@ jobs:
       - name: Build RPM
         working-directory: build
         run: rpmbuild -ba ../dist/unix/qtgiphy.spec
+      - uses: actions/upload-artifact@v2
+        with:
+          name: release_fedora_32
+          path: ~/rpmbuild/RPMS/*/qtgiphy*.*rpm
 
 
   build_fedora_33:
@@ -502,6 +518,10 @@ jobs:
       - name: Build RPM
         working-directory: build
         run: rpmbuild -ba ../dist/unix/qtgiphy.spec
+      - uses: actions/upload-artifact@v2
+        with:
+          name: release_fedora_33
+          path: ~/rpmbuild/RPMS/*/qtgiphy*.*rpm
 
 
   build_fedora_34:
@@ -560,6 +580,10 @@ jobs:
       - name: Build RPM
         working-directory: build
         run: rpmbuild -ba ../dist/unix/qtgiphy.spec
+      - uses: actions/upload-artifact@v2
+        with:
+          name: release_fedora_34
+          path: ~/rpmbuild/RPMS/*/qtgiphy*.*rpm
 
 
   build_debian_buster:
@@ -598,6 +622,13 @@ jobs:
       - name: make deb
         shell: bash
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
+      - name: move deb
+        shell: bash
+        run: mv ../*.deb .
+      - uses: actions/upload-artifact@v2
+        with:
+          name: release_debian_buster
+          path: qtgiphy*.*deb
 
 
   build_debian_bullseye:
@@ -636,6 +667,13 @@ jobs:
       - name: make deb
         shell: bash
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
+      - name: move deb
+        shell: bash
+        run: mv ../*.deb .
+      - uses: actions/upload-artifact@v2
+        with:
+          name: release_debian_bulleye
+          path: qtgiphy*.*deb
 
 
   build_ubuntu_bionic:
@@ -680,6 +718,13 @@ jobs:
       - name: make deb
         shell: bash
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
+      - name: move deb
+        shell: bash
+        run: mv ../*.deb .
+      - uses: actions/upload-artifact@v2
+        with:
+          name: release_ubuntu_bionic
+          path: qtgiphy*.*deb
 
 
   build_ubuntu_focal:
@@ -722,6 +767,13 @@ jobs:
       - name: make deb
         shell: bash
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
+      - name: move deb
+        shell: bash
+        run: mv ../*.deb .
+      - uses: actions/upload-artifact@v2
+        with:
+          name: release_ubuntu_focal
+          path: qtgiphy*.*deb
 
 
   build_ubuntu_groovy:
@@ -764,6 +816,13 @@ jobs:
       - name: make deb
         shell: bash
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
+      - name: move deb
+        shell: bash
+        run: mv ../*.deb .
+      - uses: actions/upload-artifact@v2
+        with:
+          name: release_ubuntu_groovy
+          path: qtgiphy*.*deb
 
 
   build-windows:
@@ -797,3 +856,45 @@ jobs:
       - name: Run Make
         working-directory: build
         run: make -j2
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: release_windows
+          path: build/qtgiphy.exe
+
+
+  create_release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/release'
+    needs:
+      - build_source
+      - build_opensuse_lp152_qt5
+      - build_opensuse_lp153_qt5
+      - build_fedora_32
+      - build_fedora_33
+      - build_fedora_34
+      - build_debian_buster
+      - build_debian_bullseye
+      - build_ubuntu_bionic
+      - build_ubuntu_focal
+      - build_ubuntu_groovy
+      - build-windows
+    steps:
+      - uses: actions/checkout@v1.2.0
+      - uses: actions/download-artifact@v2
+        with:
+          path: release_artifacts
+      - name: Create draft pre-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -x
+          VERSION=$(echo release_artifacts/**/*.tar.xz | sed -e 's/.*qtgiphy-\(.*\).tar.xz/\1/')
+          echo "Version: ${VERSION}"
+          assets=()
+          for asset in $(find release_artifacts -type f); do
+            echo "Adding asset: ${asset}"
+            assets+=("-a" "$asset")
+          done
+          hub release create -p "${assets[@]}" -m "$VERSION" -t "$GITHUB_SHA" "$VERSION"
