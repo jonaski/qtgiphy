@@ -85,7 +85,7 @@ if(GIT_REVISION)
 
 endif()
 
-message(STATUS "FileInfo Version:")
+message(STATUS "QtGiphy Version:")
 message(STATUS "Display:  ${QTGIPHY_VERSION_DISPLAY}")
 message(STATUS "Package:  ${QTGIPHY_VERSION_PACKAGE}")
 message(STATUS "Rpm:      ${QTGIPHY_VERSION_RPM_V}-${QTGIPHY_VERSION_RPM_R}")
