@@ -3,7 +3,7 @@ set(QTGIPHY_VERSION_MINOR 1)
 set(QTGIPHY_VERSION_PATCH 2)
 #set(QTGIPHY_VERSION_PRERELEASE rc1)
 
-set(INCLUDE_GIT_REVISION OFF)
+set(INCLUDE_GIT_REVISION ON)
 
 set(majorminorpatch "${QTGIPHY_VERSION_MAJOR}.${QTGIPHY_VERSION_MINOR}.${QTGIPHY_VERSION_PATCH}")
 
@@ -41,7 +41,7 @@ if(INCLUDE_GIT_REVISION AND EXISTS "${CMAKE_SOURCE_DIR}/.git")
   )
   # Get the latest abbreviated commit hash of the working branch
   execute_process(
-    COMMAND ${GIT_EXECUTABLE} describe --long --tags --always
+    COMMAND ${GIT_EXECUTABLE} describe --tags --always
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     RESULT_VARIABLE GIT_CMD_RESULT_REVISION
     OUTPUT_VARIABLE GIT_REVISION
