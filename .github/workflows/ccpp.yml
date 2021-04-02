@@ -885,7 +885,7 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           path: release_artifacts
-      - name: Create draft pre-release
+      - name: Create Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -897,4 +897,8 @@ jobs:
             echo "Adding asset: ${asset}"
             assets+=("-a" "$asset")
           done
-          hub release create -p "${assets[@]}" -m "$VERSION" -t "$GITHUB_SHA" "$VERSION"
+          args=
+          if [ "$(echo "$VERSION" | sed 's/[^\.]//g' | wc -m)" -gt 3 ]; then
+            args="-p"
+          fi
+          hub release create ${args} "${assets[@]}" -m "Qt Giphy $VERSION" -t "$GITHUB_SHA" "$VERSION"
